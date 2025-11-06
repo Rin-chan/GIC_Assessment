@@ -83,6 +83,16 @@ app.get('/employees', (req, res) => {
     }
 });
 
+// Create a POST endpoint /cafes
+app.post('/cafes', (req,res) => {
+    connection.query(`INSERT INTO CAFE (name, description, logo, location, id) VALUES (${req.body.name}, ${req.body.description}, ${req.body.logo}, ${req.body.location}, UUID())
+        ;`, (err, results, fields) => {
+        if (err) throw err;
+        res.json(results);
+    });
+    res.redirect('/cafes');
+});
+
 const PORT = process.env.PORT || 8080;
 
 app.listen(PORT,
