@@ -1,7 +1,10 @@
 import { Button, Form, Input } from 'antd';
+import { useNavigate } from "react-router";
 import "../index.css";
 
 function AddCafe() {
+    const navigate = useNavigate();
+
     const onFinish = values => {
         console.log('Success:', values);
         postData(values);
@@ -30,6 +33,8 @@ function AddCafe() {
             if (!response.ok) {
                 throw new Error(`Response status: ${response.status}`);
             }
+
+            navigate("/cafes");
         } catch (error) {
             console.error(error.message);
         }
@@ -53,7 +58,7 @@ function AddCafe() {
                     name="name"
                     rules={[{ required: true, message: 'Please input a name!' }]}
                 >
-                <Input />
+                <Input minLength={6} maxLength={10} />
                 </Form.Item>
 
                 <Form.Item
@@ -61,7 +66,7 @@ function AddCafe() {
                     name="description"
                     rules={[{ required: true, message: 'Please input a description!' }]}
                 >
-                <Input />
+                <Input maxLength={256} />
                 </Form.Item>
 
                 <Form.Item
@@ -79,11 +84,18 @@ function AddCafe() {
                 <Input />
                 </Form.Item>
 
-                <Form.Item label={null}>
-                    <Button type="primary" htmlType="submit">
-                        Submit
-                    </Button>
-                </Form.Item>
+                <div className="Form-Buttons">
+                    <Form.Item label={null}>
+                        <Button onClick={() => navigate("/cafes")}>
+                            Cancel
+                        </Button>
+                    </Form.Item>
+                    <Form.Item label={null}>
+                        <Button type="primary" htmlType="submit">
+                            Submit
+                        </Button>
+                    </Form.Item>
+                </div>
             </Form>
         </div>
     );

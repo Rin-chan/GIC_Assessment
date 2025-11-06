@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { Button, Form, Input, DatePicker, Radio, Flex } from 'antd';
 import dayjs from 'dayjs';
+import { useNavigate } from "react-router";
 import "../index.css";
 
 function AddEmployee() {
+    const navigate = useNavigate();
+
     const [value, setValue] = useState(0);
     const onChange = e => {
         setValue(e.target.value);
@@ -63,7 +66,7 @@ function AddEmployee() {
                     name="name"
                     rules={[{ required: true, message: 'Please input a name!' }]}
                 >
-                <Input />
+                <Input minLength={6} maxLength={10}/>
                 </Form.Item>
 
                 <Form.Item
@@ -78,7 +81,7 @@ function AddEmployee() {
                     label="Phone Number"
                     name="phone"
                     rules={[{ required: true, message: 'Please input a phone number!' },
-                        { pattern: /^[0-9]{8}$/, message: 'Phone number must be 8 digits!' }
+                        { pattern: /^[8-9]{1}[0-9]{7}$/, message: 'Phone number must be 8 digits!' }
                     ]}
                 >
                 <Input maxLength={8} />
@@ -121,16 +124,25 @@ function AddEmployee() {
                 <Form.Item
                     label="Cafe Name"
                     name="cafe"
-                    rules={[{ required: true, message: 'Please input a cafe!' }]}
+                    rules={[{ required: true, message: 'Please input a cafe!' },
+                        { type: 'email', message: 'Please enter a valid email address!' },
+                    ]}
                 >
                 <Input />
                 </Form.Item>
 
-                <Form.Item label={null}>
-                    <Button type="primary" htmlType="submit">
-                        Submit
-                    </Button>
-                </Form.Item>
+                <div className="Form-Buttons">
+                    <Form.Item label={null}>
+                        <Button onClick={() => navigate("/employees")}>
+                            Cancel
+                        </Button>
+                    </Form.Item>
+                    <Form.Item label={null}>
+                        <Button type="primary" htmlType="submit">
+                            Submit
+                        </Button>
+                    </Form.Item>
+                </div>
             </Form>
         </div>
     );

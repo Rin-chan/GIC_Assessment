@@ -31,6 +31,13 @@
   justify-content: space-between;
 }
 
+.Form-Buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin: 10%;
+}
+
 img {
   max-width: 80%;
   margin: 10%;
