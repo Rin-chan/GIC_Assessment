@@ -100,7 +100,7 @@ function Employee() {
 
     async function getDataWithCafe(cafe) {
         try {
-            const response = await fetch(`/employees?cafes="${cafe}"`);
+            const response = await fetch(`/employees?cafes=${cafe}`);
             if (!response.ok) {
                 throw new Error(`Response status: ${response.status}`);
             }
@@ -115,14 +115,14 @@ function Employee() {
     async function updateEmployeeFunc(id) {
         const updatedData = form.getFieldsValue();
         const formData = new FormData();
-        formData.append('name', `"${updatedData.name}"`);
-        formData.append('email', `"${updatedData.email}"`);
-        formData.append('phone', `${updatedData.phone}`);
+        formData.append('name', updatedData.name);
+        formData.append('email', updatedData.email);
+        formData.append('phone', updatedData.phone);
         formData.append('gender', value);
-        formData.append('cafe', `"${updatedData.cafe}"`);
+        formData.append('cafe', updatedData.cafe);
 
         try {
-            const response = await fetch(`/employees/"${id}"`, {
+            const response = await fetch(`/employees/${id}`, {
                 method: "PUT",
                 body: formData
             });
@@ -138,7 +138,7 @@ function Employee() {
 
     async function deleteEmployeeFunc(id) {
         try {
-            const response = await fetch(`/employees/"${id}"`, {
+            const response = await fetch(`/employees/${id}`, {
                 method: "DELETE"
             });
             if (!response.ok) {

@@ -16,14 +16,14 @@ function AddCafe() {
 
     async function postData(values) {
         const formData = new FormData();
-        formData.append('name', `"${values.name}"`);
-        formData.append('description', `"${values.description}"`);
+        formData.append('name', values.name);
+        formData.append('description', values.description);
         if (values.logo == undefined) {
-            formData.append('logo', `""`);
+            formData.append('logo', "");
         } else {
-            formData.append('logo', `"${values.logo}"`);
+            formData.append('logo', values.logo);
         }
-        formData.append('location', `"${values.location}"`);
+        formData.append('location', values.location);
 
         try {
             const response = await fetch("/cafes", {

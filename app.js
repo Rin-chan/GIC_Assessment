@@ -54,10 +54,6 @@ function makeid() {
 
 app.use(express.static(path.join(__dirname, '/gic_assessment/build')));
 
-app.get('/',(req,res)=>{
-    res.send(`<h1>Hello World</h1>`)
-})
-
 // Create a GET endpoint /cafes?location=<location>
 app.get('/cafes', (req, res) => {
     if (req.query.location == "" || req.query.location == undefined) {
@@ -109,18 +105,18 @@ app.post('/cafes', upload.none(), (req,res) => {
         , (err, results, fields) => {
         if (err) throw err;
     });
-    res.redirect('/cafes');
+    res.status(200).json({ message: 'Success' });
 });
 
 // Create a POST endpoint /employees
 app.post('/employees', upload.none(), (req,res) => {
     console.log(req.body);
     connection.query(`INSERT INTO Employee (id, name, email_address, phone_number, gender, start_date, cafe_name) VALUES (?, ?, ?, ?, ?, ?, ?);`
-    , [`UI${makeid()}`, req.body.name, req.body.email, req.body.phone, req.body.gender, `"${req.body.start_date}"`, req.body.cafe]
+    , [`UI${makeid()}`, req.body.name, req.body.email, req.body.phone, req.body.gender, req.body.start_date, req.body.cafe]
     , (err, results, fields) => {
         if (err) throw err;
     });
-    res.redirect('/employees');
+    res.status(200).json({ message: 'Success' });
 });
 
 // Create a PUT endpoint /cafes
@@ -133,7 +129,7 @@ app.put('/cafes/:id', upload.none(), (req, res) => {
         , (err, results, fields) => {
         if (err) throw err;
     });
-    res.redirect('/cafes');
+    res.status(200).json({ message: 'Success' });
 });
 
 // Create a PUT endpoint /employees
@@ -146,7 +142,7 @@ app.put('/employees/:id', upload.none(), (req, res) => {
         , (err, results, fields) => {
         if (err) throw err;
     });
-    res.redirect('/employees');
+    res.status(200).json({ message: 'Success' });
 });
 
 // Create a DELETE endpoint /cafes
@@ -158,7 +154,7 @@ app.delete('/cafes/:name', (req, res) => {
         , (err, results, fields) => {
         if (err) throw err;
     });
-    res.redirect('/cafes');
+    res.status(200).json({ message: 'Success' });
 })
 
 // Create a DELETE endpoint /employees
@@ -170,7 +166,7 @@ app.delete('/employees/:id', (req, res) => {
         , (err, results, fields) => {
         if (err) throw err;
     });
-    res.redirect('/employees');
+    res.status(200).json({ message: 'Success' });
 })
 
 const PORT = process.env.PORT || 8080;

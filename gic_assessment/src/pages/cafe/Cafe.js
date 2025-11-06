@@ -101,7 +101,7 @@ function Cafe() {
 
     async function getDataWithLocation(location) {
         try {
-            const response = await fetch(`/cafes?location="${location}"`);
+            const response = await fetch(`/cafes?location=${location}`);
             if (!response.ok) {
                 throw new Error(`Response status: ${response.status}`);
             }
@@ -116,17 +116,17 @@ function Cafe() {
     async function updateCafeFunc(id) {
         const updatedData = form.getFieldsValue();
         const formData = new FormData();
-        formData.append('name', `"${updatedData.name}"`);
-        formData.append('description', `"${updatedData.description}"`);
+        formData.append('name', updatedData.name);
+        formData.append('description', updatedData.description);
         if (updatedData.logo == undefined) {
-            formData.append('logo', `""`);
+            formData.append('logo', "");
         } else {
-            formData.append('logo', `"${updatedData.logo}"`);
+            formData.append('logo', updatedData.logo);
         }
-        formData.append('location', `"${updatedData.location}"`);
+        formData.append('location', updatedData.location);
 
         try {
-            const response = await fetch(`/cafes/"${id}"`, {
+            const response = await fetch(`/cafes/${id}`, {
                 method: "PUT",
                 body: formData
             });
@@ -142,7 +142,7 @@ function Cafe() {
 
     async function deleteCafeFunc(name) {
         try {
-            const response = await fetch(`/cafes/"${name}"`, {
+            const response = await fetch(`/cafes/${name}`, {
                 method: "DELETE"
             });
             if (!response.ok) {
