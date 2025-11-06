@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { AgGridReact } from 'ag-grid-react';
-import { Pagination } from 'antd';
+import { Button, Select } from 'antd';
 import "./index.css";
 
 function Cafe() {
+    const [locationList, setLocationList] = useState([]);
     const [rowData, setRowData] = useState([]);
 
     const [colDefs, setColDefs] = useState([
@@ -44,6 +45,10 @@ function Cafe() {
             }
 
             const result = await response.json();
+
+            const unique = [...new Map(result.map(item => [item.location, {value:item.location, label:item.location}])).values()];
+            console.log(unique);
+            setLocationList(unique);
             setRowData(result);
         } catch (error) {
             console.error(error.message);
@@ -52,7 +57,7 @@ function Cafe() {
 
     async function getDataWithLocation(location) {
         try {
-            const response = await fetch(`/cafes?location=${location}`);
+            const response = await fetch(`/cafes?location="${location}"`);
             if (!response.ok) {
                 throw new Error(`Response status: ${response.status}`);
             }
@@ -64,6 +69,10 @@ function Cafe() {
         }
     }
 
+    function onChange(e) {
+        getDataWithLocation(e);
+    }
+
     useEffect(() => {
         getData();
     }, []);
@@ -71,12 +80,21 @@ function Cafe() {
     return (
         <div className="Grid-div" style={{width: "96%", height: "75vh"}}>
             <h1>Cafe</h1>
+
+            <div className="Grid-header">
+                <Button type="primary">Add New Cafe</Button>
+
+                <Select
+                    style={{ width: 120 }}
+                    onChange={onChange}
+                    options={locationList}
+                />
+            </div>
+
             <AgGridReact
                 rowData={rowData}
                 columnDefs={colDefs}
             />
-
-            <Pagination defaultCurrent={1} total={50} />
         </div>
     );
 }
