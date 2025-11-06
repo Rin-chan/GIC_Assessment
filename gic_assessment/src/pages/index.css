@@ -1,0 +1,35 @@
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  padding-left: 20%;
+  padding-right: 20%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.Option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Grid-div {
+  margin: 2%;
+}
+
+img {
+  max-width: 80%;
+  margin: 10%;
+}
+
+h1 {
+  margin: 2%
+}
