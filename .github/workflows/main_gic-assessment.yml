@@ -26,7 +26,7 @@ jobs:
       - name: npm install, build, and test
         run: |
           npm install
-          cd ./gic-assessment
+          cd ./gic_assessment
           npm install
           npm run build
 
@@ -65,4 +65,5 @@ jobs:
           package: .
 
           
+
 
