@@ -4,7 +4,6 @@ const app = express();
 const multer = require('multer');
 const upload = multer();
 
-const secrets = require('./secrets.json');
 const mysql = require('mysql2');
 
 const moment = require('moment');
