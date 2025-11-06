@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import { Button, Select, Modal, Form, Input, Radio, Flex } from 'antd';
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import "../index.css";
 
 function Employee() {
@@ -9,8 +9,7 @@ function Employee() {
     const onGenderChange = e => {
         setValue(e);
     };
-
-    const [locationList, setLocationList] = useState([]);
+    
     const [rowData, setRowData] = useState([]);
 
     const [colDefs, setColDefs] = useState([
@@ -98,9 +97,10 @@ function Employee() {
         }
     }
 
+    const location = useLocation();
     async function getDataWithCafe(cafe) {
         try {
-            const response = await fetch(`/employees?cafes=${cafe}`);
+            const response = await fetch(`/employees?cafe=${cafe}`);
             if (!response.ok) {
                 throw new Error(`Response status: ${response.status}`);
             }
@@ -111,6 +111,13 @@ function Employee() {
             console.error(error.message);
         }
     }
+    useEffect(() => {
+        if (location.state?.cafe) {
+            getDataWithCafe(location.state.cafe);
+        } else {
+            getData();
+        }
+    }, [location.state])
 
     async function updateEmployeeFunc(id) {
         const updatedData = form.getFieldsValue();
@@ -150,11 +157,6 @@ function Employee() {
 
         window.location.reload();
     }
-
-    function onChange(e) {
-        getDataWithCafe(e);
-    }
-
     const [form] = Form.useForm();
 
     function handleEdit(data) {
@@ -176,22 +178,12 @@ function Employee() {
         showDeleteModal();
     }
 
-    useEffect(() => {
-        getData();
-    }, []);
-
     return (
         <div className="Grid-div" style={{width: "96%", height: "75vh"}}>
             <h1>Employee</h1>
 
             <div className="Grid-header">
                 <Link to="./add"><Button type="primary">Add New Employee</Button></Link>
-
-                <Select
-                    style={{ width: 120 }}
-                    onChange={onChange}
-                    options={locationList}
-                />
             </div>
 
             <AgGridReact

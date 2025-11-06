@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import { Button, Select, Modal, Form, Input } from 'antd';
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import "../index.css";
 
 function Cafe() {
+    const navigate = useNavigate();
+
     const [locationList, setLocationList] = useState([]);
     const [rowData, setRowData] = useState([]);
 
@@ -199,6 +201,10 @@ function Cafe() {
             <AgGridReact
                 rowData={rowData}
                 columnDefs={colDefs}
+                rowSelection="single"
+                onRowClicked={(event) => {
+                    navigate(`/employees`, {state: {cafe: event.data.name}});
+                }}
             />
 
             <Form
