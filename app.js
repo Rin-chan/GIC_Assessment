@@ -31,6 +31,7 @@ connection.query(`CREATE TABLE IF NOT EXISTS Employee (
     start_date date NOT NULL,
     cafe_name varchar(100) NOT NULL,
     FOREIGN KEY (cafe_name) REFERENCES Cafe(name)
+        ON UPDATE CASCADE ON DELETE CASCADE
     );`, (err, results, fields) => {
     if (err) throw err;
 });
@@ -110,6 +111,17 @@ app.post('/employees', (req,res) => {
         if (err) throw err;
     });
     res.redirect('/employees');
+});
+
+// Create a PUT endpoint /cafes
+app.put('/cafes', (req, res) => {
+    connection.query(`UPDATE CAFE
+        SET name = ${req.body.name}, description = ${req.body.description}, logo = ${req.body.logo}, location = ${req.body.location}
+        WHERE id = ${req.body.id}
+        ;`, (err, results, fields) => {
+        if (err) throw err;
+    });
+    res.redirect('/cafes');
 });
 
 const PORT = process.env.PORT || 8080;
