@@ -11,8 +11,8 @@ const moment = require('moment');
 
 const connection = mysql.createConnection({
     host: "localhost",
-    user: secrets.username,
-    password: secrets.password,
+    user: "root",
+    password: "123456aa",
     database: "GIC_Assessment"
 })
 
