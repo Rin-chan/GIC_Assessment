@@ -35,6 +35,17 @@ connection.query(`CREATE TABLE IF NOT EXISTS Employee (
     if (err) throw err;
 });
 
+function makeid() {
+    const length = 7;
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
+
 app.get('/',(req,res)=>{
     res.send(`<h1>Hello World</h1>`)
 })
@@ -88,9 +99,17 @@ app.post('/cafes', (req,res) => {
     connection.query(`INSERT INTO CAFE (name, description, logo, location, id) VALUES (${req.body.name}, ${req.body.description}, ${req.body.logo}, ${req.body.location}, UUID())
         ;`, (err, results, fields) => {
         if (err) throw err;
-        res.json(results);
     });
     res.redirect('/cafes');
+});
+
+// Create a POST endpoint /employees
+app.post('/employees', (req,res) => {
+    connection.query(`INSERT INTO Employee (id, name, email_address, phone_number, gender, start_date, cafe_name) VALUES (UI${makeid()}, ${req.body.name}, ${email}, ${phone}, ${gender}, ${cafe})
+        ;`, (err, results, fields) => {
+        if (err) throw err;
+    });
+    res.redirect('/employees');
 });
 
 const PORT = process.env.PORT || 8080;
