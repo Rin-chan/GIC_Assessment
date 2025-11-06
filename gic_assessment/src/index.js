@@ -1,11 +1,16 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
+import { BrowserRouter } from 'react-router';
+import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community'; 
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
+// Register all Community features
+ModuleRegistry.registerModules([AllCommunityModule]);
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render((
+  <BrowserRouter>
     <App />
-  </React.StrictMode>
+  </BrowserRouter>
+  ), document.getElementById('root')
 );

@@ -1,23 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { Menu } from "antd";
+import Main from './Main';
+import { NavLink } from "react-router";
+
+const items = [
+  {
+    key: 'Home',
+    label: (
+      <NavLink to="/">
+        Home
+      </NavLink>
+    ),
+  },
+  {
+    key: 'Cafe',
+    label: (
+      <NavLink to="/cafes">
+        Cafe
+      </NavLink>
+    ),
+  },
+  {
+    key: 'Employee',
+    label: (
+      <NavLink to="/employees">
+        Employee
+      </NavLink>
+    ),
+  }
+];
 
 function App() {
+  const [current, setCurrent] = useState('mail');
+
+  const onClick = e => {
+    setCurrent(e.key);
+  }
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />;
+      <Main />
     </div>
   );
 }
