@@ -1,0 +1,11 @@
+{
+  "name": "gic_assessment",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tang Nian Ci",
+  "license": "ISC",
+  "description": "Created for Technical Assessment for GIC Full Stack Engineer for Public Equities Internship"
+}
