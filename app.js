@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require('path');
 const app = express();
 const multer = require('multer');
 const upload = multer();
@@ -51,6 +52,8 @@ function makeid() {
     return result;
 }
 
+app.use(express.static(path.join(__dirname, '/gic_assessment/build')));
+
 app.get('/',(req,res)=>{
     res.send(`<h1>Hello World</h1>`)
 })
@@ -101,8 +104,7 @@ app.get('/employees', (req, res) => {
 
 // Create a POST endpoint /cafes
 app.post('/cafes', upload.none(), (req,res) => {
-    connection.query(`INSERT INTO CAFE (name, description, logo, location, id) VALUES (${req.body.name}, ${req.body.description}, ${req.body.logo}, ${req.body.location}, UUID())
-        ;`, (err, results, fields) => {
+    connection.query(`INSERT INTO CAFE (name, description, logo, location, id) VALUES (${req.body.name}, ${req.body.description}, ${req.body.logo}, ${req.body.location}, UUID());`, (err, results, fields) => {
         if (err) throw err;
     });
     res.redirect('/cafes');
@@ -111,18 +113,17 @@ app.post('/cafes', upload.none(), (req,res) => {
 // Create a POST endpoint /employees
 app.post('/employees', upload.none(), (req,res) => {
     console.log(req.body);
-    connection.query(`INSERT INTO Employee (id, name, email_address, phone_number, gender, start_date, cafe_name) VALUES ("UI${makeid()}", ${req.body.name}, ${req.body.email}, ${req.body.phone}, ${req.body.gender}, "${moment().format('YYYY/MM/DD')}",${req.body.cafe})
-        ;`, (err, results, fields) => {
+    connection.query(`INSERT INTO Employee (id, name, email_address, phone_number, gender, start_date, cafe_name) VALUES ("UI${makeid()}", ${req.body.name}, ${req.body.email}, ${req.body.phone}, ${req.body.gender}, "${moment().format('YYYY/MM/DD')}",${req.body.cafe});`, (err, results, fields) => {
         if (err) throw err;
     });
     res.redirect('/employees');
 });
 
 // Create a PUT endpoint /cafes
-app.put('/cafes', upload.none(), (req, res) => {
+app.put('/cafes/:id', upload.none(), (req, res) => {
     connection.query(`UPDATE Cafe
         SET name = ${req.body.name}, description = ${req.body.description}, logo = ${req.body.logo}, location = ${req.body.location}
-        WHERE id = ${req.body.id}
+        WHERE id = ${req.params.id}
         ;`, (err, results, fields) => {
         if (err) throw err;
     });

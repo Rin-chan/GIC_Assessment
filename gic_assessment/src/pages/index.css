@@ -25,6 +25,12 @@
   margin: 2%;
 }
 
+.Grid-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 img {
   max-width: 80%;
   margin: 10%;
