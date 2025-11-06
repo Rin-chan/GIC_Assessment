@@ -63,6 +63,26 @@ app.get('/cafes', (req, res) => {
     }
 });
 
+// Create a GET endpoint /employees?cafe=<cafe>
+app.get('/employees', (req, res) => {
+    if (req.query.cafe == "") {
+        connection.query(`SELECT id, name, email_address, phone_number, DATEDIFF(CURDATE(), start_date) as days_worked, cafe_name FROM Employee
+            ORDER BY DATEDIFF(CURDATE(), start_date) DESC
+            ;`, (err, results, fields) => {
+            if (err) throw err;
+            res.json(results);
+        });
+    } else {
+        connection.query(`SELECT id, name, email_address, phone_number, DATEDIFF(CURDATE(), start_date) as days_worked, cafe_name FROM Employee
+            WHERE cafe_name = ${req.query.cafe}
+            ORDER BY DATEDIFF(CURDATE(), start_date) DESC
+            ;`, (err, results, fields) => {
+            if (err) throw err;
+            res.json(results);
+        });
+    }
+});
+
 const PORT = process.env.PORT || 8080;
 
 app.listen(PORT,
