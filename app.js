@@ -115,13 +115,24 @@ app.post('/employees', (req,res) => {
 
 // Create a PUT endpoint /cafes
 app.put('/cafes', (req, res) => {
-    connection.query(`UPDATE CAFE
+    connection.query(`UPDATE Cafe
         SET name = ${req.body.name}, description = ${req.body.description}, logo = ${req.body.logo}, location = ${req.body.location}
         WHERE id = ${req.body.id}
         ;`, (err, results, fields) => {
         if (err) throw err;
     });
     res.redirect('/cafes');
+});
+
+// Create a PUT endpoint /employees
+app.put('/employees', (req, res) => {
+    connection.query(`UPDATE Employee
+        SET name = ${req.body.name}, email_address = ${req.body.email}, phone_number = ${req.body.phone}, gender = ${req.body.gender}, cafe_name = ${req.body.cafe}
+        WHERE id = ${req.body.id}
+        ;`, (err, results, fields) => {
+        if (err) throw err;
+    });
+    res.redirect('/employees');
 });
 
 const PORT = process.env.PORT || 8080;
