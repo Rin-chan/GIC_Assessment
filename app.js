@@ -135,6 +135,16 @@ app.put('/employees', (req, res) => {
     res.redirect('/employees');
 });
 
+// Create a DELETE endpoint /cafes
+app.delete('/cafes/:name', (res, req) => {
+    connection.query(`DELETE FROM Cafe
+        WHERE name = ${req.params.name}
+        ;`, (err, results, fields) => {
+        if (err) throw err;
+    });
+    res.redirect('/cafes');
+})
+
 const PORT = process.env.PORT || 8080;
 
 app.listen(PORT,
