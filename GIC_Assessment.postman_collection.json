@@ -1,0 +1,312 @@
+{
+	"info": {
+		"_postman_id": "3999a1b5-edf4-4462-8378-ce2f2398af07",
+		"name": "GIC_Assessment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23706490"
+	},
+	"item": [
+		{
+			"name": "localhost:8080/cafes?location=\"East\"",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/cafes?location=\"East\"",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cafes"
+					],
+					"query": [
+						{
+							"key": "location",
+							"value": "\"East\""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/employees?cafe=\"Woodlands Civic Centre\"",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/employees?cafe=\"Woodlands Civic Centre\"",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employees"
+					],
+					"query": [
+						{
+							"key": "cafe",
+							"value": "\"Woodlands Civic Centre\""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/employees",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "\"Fiona\"",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "\"fiona@gmail.com\"",
+							"type": "text"
+						},
+						{
+							"key": "phone",
+							"value": "91234567",
+							"type": "text"
+						},
+						{
+							"key": "gender",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "cafe",
+							"value": "\"Great World\"",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8080/employees",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/cafes",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "\"Sembawang Shopping Centre\"",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "\"#01-18\"",
+							"type": "text"
+						},
+						{
+							"key": "logo",
+							"value": "\"https://www.daisosingapore.com.sg/wp-content/uploads/2021/06/Daiso-Threeppy-Sembawang-Shopping-Centre-338x210px-scaled-e1631850267788.jpg\"",
+							"type": "text"
+						},
+						{
+							"key": "location",
+							"value": "\"North\"",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8080/cafes",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cafes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/cafes",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "id",
+							"value": "\"7d64ffc8-bb02-11f0-8759-6ab6547f8108\"",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "\"Great World\"",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "\"#01-140\"",
+							"type": "text"
+						},
+						{
+							"key": "logo",
+							"value": "\"https://www.daisosingapore.com.sg/wp-content/uploads/2024/05/Untitled-4_GWC.jpg\"",
+							"type": "text"
+						},
+						{
+							"key": "location",
+							"value": "\"Central\"",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8080/cafes",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cafes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/employees",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "id",
+							"value": "\"UI1000001\"",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "\"Jim\"",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "\"jim101@gmail.com\"",
+							"type": "text"
+						},
+						{
+							"key": "phone",
+							"value": "81111114",
+							"type": "text"
+						},
+						{
+							"key": "gender",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "cafe",
+							"value": "\"Tampines 1\"",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8080/employees",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/employees/\"UI100001\"",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/employees/\"UI100001\"",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employees",
+						"\"UI100001\""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/cafes/\"Sembawang Shopping Centre\"",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/cafes/\"Sembawang Shopping Centre\"",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cafes",
+						"\"Sembawang Shopping Centre\""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
