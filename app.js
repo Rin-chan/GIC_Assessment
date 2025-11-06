@@ -1,8 +1,12 @@
 const express = require("express");
 const app = express();
+const multer = require('multer');
+const upload = multer();
 
 const secrets = require('./secrets.json');
 const mysql = require('mysql2');
+
+const moment = require('moment');
 
 const connection = mysql.createConnection({
     host: "localhost",
@@ -53,9 +57,9 @@ app.get('/',(req,res)=>{
 
 // Create a GET endpoint /cafes?location=<location>
 app.get('/cafes', (req, res) => {
-    if (req.query.location == "") {
+    if (req.query.location == "" || req.query.location == undefined) {
         connection.query(`SELECT Cafe.name, Cafe.description, count(Employee.cafe_name) as Employee_Count, Cafe.logo, Cafe.location, Cafe.id FROM Cafe
-            JOIN Employee ON Employee.cafe_name = Cafe.name
+            LEFT JOIN Employee ON Employee.cafe_name = Cafe.name
             GROUP BY Cafe.name
             ORDER BY count(Employee.cafe_name) DESC
             ;`, (err, results, fields) => {
@@ -64,7 +68,7 @@ app.get('/cafes', (req, res) => {
         });
     } else {
         connection.query(`SELECT Cafe.name, Cafe.description, count(Employee.cafe_name) as Employee_Count, Cafe.logo, Cafe.location, Cafe.id FROM Cafe
-            JOIN Employee ON Employee.cafe_name = Cafe.name
+            LEFT JOIN Employee ON Employee.cafe_name = Cafe.name
             WHERE Cafe.location = ${req.query.location}
             GROUP BY Cafe.name
             ORDER BY count(Employee.cafe_name) DESC
@@ -77,7 +81,7 @@ app.get('/cafes', (req, res) => {
 
 // Create a GET endpoint /employees?cafe=<cafe>
 app.get('/employees', (req, res) => {
-    if (req.query.cafe == "") {
+    if (req.query.cafe == "" || req.query.cafe == undefined) {
         connection.query(`SELECT id, name, email_address, phone_number, DATEDIFF(CURDATE(), start_date) as days_worked, cafe_name FROM Employee
             ORDER BY DATEDIFF(CURDATE(), start_date) DESC
             ;`, (err, results, fields) => {
@@ -96,7 +100,7 @@ app.get('/employees', (req, res) => {
 });
 
 // Create a POST endpoint /cafes
-app.post('/cafes', (req,res) => {
+app.post('/cafes', upload.none(), (req,res) => {
     connection.query(`INSERT INTO CAFE (name, description, logo, location, id) VALUES (${req.body.name}, ${req.body.description}, ${req.body.logo}, ${req.body.location}, UUID())
         ;`, (err, results, fields) => {
         if (err) throw err;
@@ -105,8 +109,9 @@ app.post('/cafes', (req,res) => {
 });
 
 // Create a POST endpoint /employees
-app.post('/employees', (req,res) => {
-    connection.query(`INSERT INTO Employee (id, name, email_address, phone_number, gender, start_date, cafe_name) VALUES (UI${makeid()}, ${req.body.name}, ${email}, ${phone}, ${gender}, ${cafe})
+app.post('/employees', upload.none(), (req,res) => {
+    console.log(req.body);
+    connection.query(`INSERT INTO Employee (id, name, email_address, phone_number, gender, start_date, cafe_name) VALUES ("UI${makeid()}", ${req.body.name}, ${req.body.email}, ${req.body.phone}, ${req.body.gender}, "${moment().format('YYYY/MM/DD')}",${req.body.cafe})
         ;`, (err, results, fields) => {
         if (err) throw err;
     });
@@ -114,7 +119,7 @@ app.post('/employees', (req,res) => {
 });
 
 // Create a PUT endpoint /cafes
-app.put('/cafes', (req, res) => {
+app.put('/cafes', upload.none(), (req, res) => {
     connection.query(`UPDATE Cafe
         SET name = ${req.body.name}, description = ${req.body.description}, logo = ${req.body.logo}, location = ${req.body.location}
         WHERE id = ${req.body.id}
@@ -125,7 +130,7 @@ app.put('/cafes', (req, res) => {
 });
 
 // Create a PUT endpoint /employees
-app.put('/employees', (req, res) => {
+app.put('/employees', upload.none(), (req, res) => {
     connection.query(`UPDATE Employee
         SET name = ${req.body.name}, email_address = ${req.body.email}, phone_number = ${req.body.phone}, gender = ${req.body.gender}, cafe_name = ${req.body.cafe}
         WHERE id = ${req.body.id}
@@ -136,13 +141,23 @@ app.put('/employees', (req, res) => {
 });
 
 // Create a DELETE endpoint /cafes
-app.delete('/cafes/:name', (res, req) => {
+app.delete('/cafes/:name', (req, res) => {
     connection.query(`DELETE FROM Cafe
         WHERE name = ${req.params.name}
         ;`, (err, results, fields) => {
         if (err) throw err;
     });
     res.redirect('/cafes');
+})
+
+// Create a DELETE endpoint /employees
+app.delete('/employees/:id', (req, res) => {
+    connection.query(`DELETE FROM Employee
+        WHERE id = ${req.params.id}
+        ;`, (err, results, fields) => {
+        if (err) throw err;
+    });
+    res.redirect('/employees');
 })
 
 const PORT = process.env.PORT || 8080;
