@@ -7,10 +7,11 @@ const upload = multer();
 const mysql = require('mysql2');
 
 const connection = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "123456aa",
-    database: "GIC_Assessment"
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME,
+    ssl: { rejectUnauthorized:true }
 })
 
 // Startup Database (and create tables)
