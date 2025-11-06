@@ -72,10 +72,10 @@ app.get('/cafes', (req, res) => {
     } else {
         connection.query(`SELECT Cafe.name, Cafe.description, count(Employee.cafe_name) as Employee_Count, Cafe.logo, Cafe.location, Cafe.id FROM Cafe
             LEFT JOIN Employee ON Employee.cafe_name = Cafe.name
-            WHERE Cafe.location = ${req.query.location}
+            WHERE Cafe.location = ?
             GROUP BY Cafe.name
             ORDER BY count(Employee.cafe_name) DESC
-            ;`, (err, results, fields) => {
+            ;`, [req.query.location], (err, results, fields) => {
             if (err) throw err;
             res.json(results);
         });
@@ -93,9 +93,9 @@ app.get('/employees', (req, res) => {
         });
     } else {
         connection.query(`SELECT id, name, email_address, phone_number, DATEDIFF(CURDATE(), start_date) as days_worked, cafe_name, gender FROM Employee
-            WHERE cafe_name = ${req.query.cafe}
+            WHERE cafe_name = ?
             ORDER BY DATEDIFF(CURDATE(), start_date) DESC
-            ;`, (err, results, fields) => {
+            ;`, [req.query.cafe], (err, results, fields) => {
             if (err) throw err;
             res.json(results);
         });
@@ -104,7 +104,9 @@ app.get('/employees', (req, res) => {
 
 // Create a POST endpoint /cafes
 app.post('/cafes', upload.none(), (req,res) => {
-    connection.query(`INSERT INTO CAFE (name, description, logo, location, id) VALUES (${req.body.name}, ${req.body.description}, ${req.body.logo}, ${req.body.location}, UUID());`, (err, results, fields) => {
+    connection.query(`INSERT INTO CAFE (name, description, logo, location, id) VALUES (?, ?, ? ,?, UUID());`
+        , [req.body.name, req.body.description, req.body.logo, req.body.location]
+        , (err, results, fields) => {
         if (err) throw err;
     });
     res.redirect('/cafes');
@@ -113,7 +115,9 @@ app.post('/cafes', upload.none(), (req,res) => {
 // Create a POST endpoint /employees
 app.post('/employees', upload.none(), (req,res) => {
     console.log(req.body);
-    connection.query(`INSERT INTO Employee (id, name, email_address, phone_number, gender, start_date, cafe_name) VALUES ("UI${makeid()}", ${req.body.name}, ${req.body.email}, ${req.body.phone}, ${req.body.gender}, "${req.body.start_date}",${req.body.cafe});`, (err, results, fields) => {
+    connection.query(`INSERT INTO Employee (id, name, email_address, phone_number, gender, start_date, cafe_name) VALUES (?, ?, ?, ?, ?, ?, ?);`
+    , [`UI${makeid()}`, req.body.name, req.body.email, req.body.phone, req.body.gender, `"${req.body.start_date}"`, req.body.cafe]
+    , (err, results, fields) => {
         if (err) throw err;
     });
     res.redirect('/employees');
@@ -122,9 +126,11 @@ app.post('/employees', upload.none(), (req,res) => {
 // Create a PUT endpoint /cafes
 app.put('/cafes/:id', upload.none(), (req, res) => {
     connection.query(`UPDATE Cafe
-        SET name = ${req.body.name}, description = ${req.body.description}, logo = ${req.body.logo}, location = ${req.body.location}
-        WHERE id = ${req.params.id}
-        ;`, (err, results, fields) => {
+        SET name = ?, description = ?, logo = ?, location = ?
+        WHERE id = ?
+        ;`
+        , [req.body.name, req.body.description, req.body.logo, req.body.location, req.params.id]
+        , (err, results, fields) => {
         if (err) throw err;
     });
     res.redirect('/cafes');
@@ -133,9 +139,11 @@ app.put('/cafes/:id', upload.none(), (req, res) => {
 // Create a PUT endpoint /employees
 app.put('/employees/:id', upload.none(), (req, res) => {
     connection.query(`UPDATE Employee
-        SET name = ${req.body.name}, email_address = ${req.body.email}, phone_number = ${req.body.phone}, gender = ${req.body.gender}, cafe_name = ${req.body.cafe}
-        WHERE id = ${req.params.id}
-        ;`, (err, results, fields) => {
+        SET name = ?, email_address = ?, phone_number = ?, gender = ?, cafe_name = ?
+        WHERE id = ?
+        ;`
+        , [req.body.name, req.body.email, req.body.phone, req.body.gender, req.body.cafe, req.params.id]
+        , (err, results, fields) => {
         if (err) throw err;
     });
     res.redirect('/employees');
@@ -144,8 +152,10 @@ app.put('/employees/:id', upload.none(), (req, res) => {
 // Create a DELETE endpoint /cafes
 app.delete('/cafes/:name', (req, res) => {
     connection.query(`DELETE FROM Cafe
-        WHERE name = ${req.params.name}
-        ;`, (err, results, fields) => {
+        WHERE name = ?
+        ;`
+        , [req.params.name]
+        , (err, results, fields) => {
         if (err) throw err;
     });
     res.redirect('/cafes');
@@ -154,8 +164,10 @@ app.delete('/cafes/:name', (req, res) => {
 // Create a DELETE endpoint /employees
 app.delete('/employees/:id', (req, res) => {
     connection.query(`DELETE FROM Employee
-        WHERE id = ${req.params.id}
-        ;`, (err, results, fields) => {
+        WHERE id = ?
+        ;`
+        , [req.params.id]
+        , (err, results, fields) => {
         if (err) throw err;
     });
     res.redirect('/employees');
