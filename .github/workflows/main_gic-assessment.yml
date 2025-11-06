@@ -23,13 +23,18 @@ jobs:
         with:
           node-version: '24.x'
 
-      - name: npm install, build, and test
+      - name: Build frontend
         run: |
-          npm install
-          npm run start
-          cd ./gic-assessment
-          npm install
-          npm start
+          cd gic_assessment
+          npm ci
+          npm run build
+          cd ..
+
+      - name: Install backend
+        run: npm ci
+
+      - name: Start App
+        run: npm start
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4

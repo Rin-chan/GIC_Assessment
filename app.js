@@ -6,8 +6,6 @@ const upload = multer();
 
 const mysql = require('mysql2');
 
-const moment = require('moment');
-
 const connection = mysql.createConnection({
     host: "localhost",
     user: "root",
