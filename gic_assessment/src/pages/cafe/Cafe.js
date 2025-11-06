@@ -136,6 +136,8 @@ function Cafe() {
         } catch (error) {
             console.error(error.message);
         }
+
+        window.location.reload();
     }
 
     async function deleteCafeFunc(name) {
@@ -149,6 +151,8 @@ function Cafe() {
         } catch (error) {
             console.error(error.message);
         }
+
+        window.location.reload();
     }
 
     function onChange(e) {
