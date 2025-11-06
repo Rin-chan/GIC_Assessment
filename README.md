@@ -18,4 +18,4 @@ To manually populate the database, you can run the file <b>INSERT_CAFE.sql</b> f
 Developed on ReactJS with AG Grid and Ant Design
 
 To run the application, use
-`npm install`
+`npm install` and `npm start`
