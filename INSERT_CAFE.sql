@@ -1,0 +1,4 @@
+INSERT INTO CAFE (name, description, logo, location, id) VALUES ("Great World", "#02-140", "https://www.daisosingapore.com.sg/wp-content/uploads/2024/05/Untitled-4_GWC.jpg", "Central", UUID());
+INSERT INTO CAFE (name, description, logo, location, id) VALUES ("Tampines 1", "#03-17", "https://www.daisosingapore.com.sg/wp-content/uploads/2021/06/t1.jpg", "East", UUID());
+INSERT INTO CAFE (name, description, logo, location, id) VALUES ("Parkway Parade", "#03-26B", "https://www.daisosingapore.com.sg/wp-content/uploads/2021/06/PP.jpg", "East", UUID());
+INSERT INTO CAFE (name, description, logo, location, id) VALUES ("Woodlands Civic Centre", "#02-05/06", "https://www.daisosingapore.com.sg/wp-content/uploads/2023/10/WCC-Shop-Front.jpg", "North", UUID());

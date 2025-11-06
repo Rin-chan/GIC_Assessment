@@ -1,0 +1,10 @@
+INSERT INTO Employee (id, name, email_address, phone_number, gender, start_date, cafe_name) VALUES ("UI1000006", "John", "john@gmail.com", 81111111, 0, "2020-01-01", "Great World");
+INSERT INTO Employee (id, name, email_address, phone_number, gender, start_date, cafe_name) VALUES ("UI1000008", "Mary", "mary@gmail.com", 81111112, 1, "2024-03-01", "Great World");
+INSERT INTO Employee (id, name, email_address, phone_number, gender, start_date, cafe_name) VALUES ("UI1000004", "Josh", "josh1@gmail.com", 81111113, 0, "2018-02-02", "Great World");
+INSERT INTO Employee (id, name, email_address, phone_number, gender, start_date, cafe_name) VALUES ("UI1000001", "Jim", "jim@gmail.com", 81111114, 0, "2015-12-06", "Tampines 1");
+INSERT INTO Employee (id, name, email_address, phone_number, gender, start_date, cafe_name) VALUES ("UI1000002", "Jaden", "jaden@gmail.com", 81111115, 0, "2017-01-01", "Tampines 1");
+INSERT INTO Employee (id, name, email_address, phone_number, gender, start_date, cafe_name) VALUES ("UI1000005", "Kim", "kim@gmail.com", 81111116, 1, "2019-06-01", "Parkway Parade");
+INSERT INTO Employee (id, name, email_address, phone_number, gender, start_date, cafe_name) VALUES ("UI1000003", "Cady", "cady@gmail.com", 81111117, 1, "2018-02-01", "Woodlands Civic Centre");
+INSERT INTO Employee (id, name, email_address, phone_number, gender, start_date, cafe_name) VALUES ("UI1000009", "Paul", "paul@gmail.com", 81111118, 0, "2024-07-01", "Woodlands Civic Centre");
+INSERT INTO Employee (id, name, email_address, phone_number, gender, start_date, cafe_name) VALUES ("UI1000007", "Rin", "rin@gmail.com", 81111119, 1, "2023-05-01", "Woodlands Civic Centre");
+INSERT INTO Employee (id, name, email_address, phone_number, gender, start_date, cafe_name) VALUES ("UI1000010", "Robo", "robo@gmail.com", 81111120, 0, "2025-07-15", "Woodlands Civic Centre");
