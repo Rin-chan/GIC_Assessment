@@ -233,7 +233,9 @@ function Employee() {
                     <Form.Item
                         label="Email Address"
                         name="email"
-                        rules={[{ required: true, message: 'Please input a email!' }]}
+                        rules={[{ required: true, message: 'Please input a email!' },
+                            { type: 'email', message: 'Please enter a valid email address!' },
+                        ]}
                     >
                     <Input />
                     </Form.Item>
@@ -242,7 +244,7 @@ function Employee() {
                         label="Phone Number"
                         name="phone"
                         rules={[{ required: true, message: 'Please input a phone number!' },
-                            { pattern: /^[0-9]{8}$/, message: 'Phone number must be 8 digits!' }
+                            { pattern: /^[8-9]{1}[0-9]{7}$/, message: 'Phone number must be 8 digits!' }
                         ]}
                     >
                     <Input maxLength={8} />
