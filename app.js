@@ -85,14 +85,14 @@ app.get('/cafes', (req, res) => {
 // Create a GET endpoint /employees?cafe=<cafe>
 app.get('/employees', (req, res) => {
     if (req.query.cafe == "" || req.query.cafe == undefined) {
-        connection.query(`SELECT id, name, email_address, phone_number, DATEDIFF(CURDATE(), start_date) as days_worked, cafe_name FROM Employee
+        connection.query(`SELECT id, name, email_address, phone_number, DATEDIFF(CURDATE(), start_date) as days_worked, cafe_name, gender FROM Employee
             ORDER BY DATEDIFF(CURDATE(), start_date) DESC
             ;`, (err, results, fields) => {
             if (err) throw err;
             res.json(results);
         });
     } else {
-        connection.query(`SELECT id, name, email_address, phone_number, DATEDIFF(CURDATE(), start_date) as days_worked, cafe_name FROM Employee
+        connection.query(`SELECT id, name, email_address, phone_number, DATEDIFF(CURDATE(), start_date) as days_worked, cafe_name, gender FROM Employee
             WHERE cafe_name = ${req.query.cafe}
             ORDER BY DATEDIFF(CURDATE(), start_date) DESC
             ;`, (err, results, fields) => {
@@ -113,7 +113,7 @@ app.post('/cafes', upload.none(), (req,res) => {
 // Create a POST endpoint /employees
 app.post('/employees', upload.none(), (req,res) => {
     console.log(req.body);
-    connection.query(`INSERT INTO Employee (id, name, email_address, phone_number, gender, start_date, cafe_name) VALUES ("UI${makeid()}", ${req.body.name}, ${req.body.email}, ${req.body.phone}, ${req.body.gender}, "${moment().format('YYYY/MM/DD')}",${req.body.cafe});`, (err, results, fields) => {
+    connection.query(`INSERT INTO Employee (id, name, email_address, phone_number, gender, start_date, cafe_name) VALUES ("UI${makeid()}", ${req.body.name}, ${req.body.email}, ${req.body.phone}, ${req.body.gender}, "${req.body.start_date}",${req.body.cafe});`, (err, results, fields) => {
         if (err) throw err;
     });
     res.redirect('/employees');
@@ -131,10 +131,10 @@ app.put('/cafes/:id', upload.none(), (req, res) => {
 });
 
 // Create a PUT endpoint /employees
-app.put('/employees', upload.none(), (req, res) => {
+app.put('/employees/:id', upload.none(), (req, res) => {
     connection.query(`UPDATE Employee
         SET name = ${req.body.name}, email_address = ${req.body.email}, phone_number = ${req.body.phone}, gender = ${req.body.gender}, cafe_name = ${req.body.cafe}
-        WHERE id = ${req.body.id}
+        WHERE id = ${req.params.id}
         ;`, (err, results, fields) => {
         if (err) throw err;
     });
