@@ -34,7 +34,7 @@ jobs:
         run: npm ci
 
       - name: Start App
-        run: npm start
+        run: npm run start
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4

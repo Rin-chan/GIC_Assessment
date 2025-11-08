@@ -7,14 +7,14 @@ const upload = multer();
 const mysql = require('mysql2');
 const fs = require('fs');
 
-const connection = mysql.createConnection({
+var connection = mysql.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: process.env.DB_NAME,
     port: 3306,
     ssl: {
-        ca: fs.readFileSync("./DigiCertGlobalRootCA.crt.pem"),
+        ca: fs.readFileSync("./DigiCertGlobalRootG2.crt.pem"),
         rejectUnauthorized: true
     }
 })
@@ -23,7 +23,7 @@ const connection = mysql.createConnection({
 connection.query(`CREATE TABLE IF NOT EXISTS Cafe (
     name varchar(100) PRIMARY KEY,
     description varchar(256) NOT NULL,
-    logo varchar(256),
+    logo longtext,
     location varchar(256) NOT NULL,
     id varchar(256) NOT NULL
     );`, (err, results, fields) => {
