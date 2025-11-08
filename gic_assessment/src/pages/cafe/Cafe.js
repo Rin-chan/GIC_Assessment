@@ -45,12 +45,18 @@ function Cafe() {
                 <div style={{ display: "flex", gap: "8px" }}>
                     <Button
                         type="primary"
-                        onClick={() => handleEdit(params.data)}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleEdit(params.data)
+                        }}
                         >
                         Edit
                     </Button>
                     <Button danger
-                        onClick={() => handleDelete(params.data)}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleDelete(params.data)
+                        }}
                         >
                         Delete
                     </Button>
@@ -202,8 +208,10 @@ function Cafe() {
                 rowData={rowData}
                 columnDefs={colDefs}
                 rowSelection="single"
-                onRowClicked={(event) => {
-                    navigate(`/employees`, {state: {cafe: event.data.name}});
+                onCellClicked={(event) => {
+                    if (event.colDef.field != "id") {
+                        navigate(`/employees`, {state: {cafe: event.data.name}});
+                    }
                 }}
             />
 
