@@ -37,7 +37,11 @@ function AddCafe() {
         const formData = new FormData();
         formData.append('name', values.name);
         formData.append('description', values.description);
-        formData.append('logo', imageUrl);
+        if (imageUrl == undefined) {
+            formData.append('logo', "");
+        } else {
+            formData.append('logo', imageUrl);
+        }
         formData.append('location', values.location);
 
         try {
