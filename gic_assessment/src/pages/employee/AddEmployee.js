@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Button, Form, Input, DatePicker, Radio, Flex } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Button, Form, Input, DatePicker, Radio, Flex, Select } from 'antd';
 import dayjs from 'dayjs';
 import { useNavigate } from "react-router";
 import "../index.css";
@@ -15,7 +15,6 @@ function AddEmployee() {
     const dateFormat = 'YYYY/MM/DD';
 
     const onFinish = values => {
-        console.log('Success:', values);
         postData(values);
     };
 
@@ -25,12 +24,12 @@ function AddEmployee() {
 
     async function postData(values) {
         const formData = new FormData();
-        formData.append('name', `"${values.name}"`);
-        formData.append('email', `"${values.email}"`);
-        formData.append('phone', `${values.phone}`);
+        formData.append('name', values.name);
+        formData.append('email', values.email);
+        formData.append('phone', values.phone);
         formData.append('gender', value);
         formData.append('start_date', values.start_date.format(dateFormat));
-        formData.append('cafe', `"${values.cafe}"`);
+        formData.append('cafe', values.cafe);
 
         try {
             const response = await fetch("/employees", {
@@ -40,10 +39,33 @@ function AddEmployee() {
             if (!response.ok) {
                 throw new Error(`Response status: ${response.status}`);
             }
+
+            navigate("/employees");
         } catch (error) {
             console.error(error.message);
         }
     }
+
+    const [cafeList, setCafeList] = useState([]);
+    async function getCafeList() {
+        try {
+            const response = await fetch("/cafes");
+            if (!response.ok) {
+                throw new Error(`Response status: ${response.status}`);
+            }
+
+            const result = await response.json();
+
+            const unique = [...new Map(result.map(item => [item.name, {value:item.name, label:item.name}])).values()];
+            setCafeList(unique);
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
+
+    useEffect(() => {
+        getCafeList();
+    }, [])
 
     return (
         <div className="Grid-div" style={{width: "96%", height: "75vh"}}>
@@ -117,6 +139,8 @@ function AddEmployee() {
                 <Form.Item
                     label="Start Date"
                     name="start_date"
+                    rules={[{ required: true, message: 'Please input a date!' }
+                    ]}
                 >
                 <DatePicker defaultValue={dayjs()} format={dateFormat} />
                 </Form.Item>
@@ -124,11 +148,13 @@ function AddEmployee() {
                 <Form.Item
                     label="Cafe Name"
                     name="cafe"
-                    rules={[{ required: true, message: 'Please input a cafe!' },
-                        { type: 'email', message: 'Please enter a valid email address!' },
+                    rules={[{ required: true, message: 'Please input a cafe!' }
                     ]}
                 >
-                <Input />
+                <Select
+                    style={{ width: 120 }}
+                    options={cafeList}
+                />
                 </Form.Item>
 
                 <div className="Form-Buttons">

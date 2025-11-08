@@ -111,12 +111,31 @@ function Employee() {
             console.error(error.message);
         }
     }
+
+    const [cafeList, setCafeList] = useState([]);
+    async function getCafeList() {
+        try {
+            const response = await fetch("/cafes");
+            if (!response.ok) {
+                throw new Error(`Response status: ${response.status}`);
+            }
+
+            const result = await response.json();
+
+            const unique = [...new Map(result.map(item => [item.name, {value:item.name, label:item.name}])).values()];
+            setCafeList(unique);
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
+
     useEffect(() => {
         if (location.state?.cafe) {
             getDataWithCafe(location.state.cafe);
         } else {
             getData();
         }
+        getCafeList();
     }, [location.state])
 
     async function updateEmployeeFunc(id) {
@@ -274,7 +293,10 @@ function Employee() {
                         name="cafe"
                         rules={[{ required: true, message: 'Please input a cafe!' }]}
                     >
-                    <Input />
+                    <Select
+                        style={{ width: 120 }}
+                        options={cafeList}
+                    />
                     </Form.Item>
                 </Modal>
             </Form>
