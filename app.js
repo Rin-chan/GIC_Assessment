@@ -65,7 +65,7 @@ app.get('/cafes', (req, res) => {
             GROUP BY Cafe.name
             ORDER BY count(Employee.cafe_name) DESC
             ;`, (err, results, fields) => {
-            if (err) throw err;
+            if (err) throw res.status(400).json(`An error has occured: ${err}`);
             res.json(results);
         });
     } else {
@@ -75,7 +75,7 @@ app.get('/cafes', (req, res) => {
             GROUP BY Cafe.name
             ORDER BY count(Employee.cafe_name) DESC
             ;`, [req.query.location], (err, results, fields) => {
-            if (err) throw err;
+            if (err) throw res.status(400).json(`An error has occured: ${err}`);
             res.json(results);
         });
     }
@@ -87,7 +87,7 @@ app.get('/employees', (req, res) => {
         connection.query(`SELECT id, name, email_address, phone_number, DATEDIFF(CURDATE(), start_date) as days_worked, cafe_name, gender FROM Employee
             ORDER BY DATEDIFF(CURDATE(), start_date) DESC
             ;`, (err, results, fields) => {
-            if (err) throw err;
+            if (err) throw res.status(400).json(`An error has occured: ${err}`);
             res.json(results);
         });
     } else {
@@ -95,7 +95,7 @@ app.get('/employees', (req, res) => {
             WHERE cafe_name = ?
             ORDER BY DATEDIFF(CURDATE(), start_date) DESC
             ;`, [req.query.cafe], (err, results, fields) => {
-            if (err) throw err;
+            if (err) throw res.status(400).json(`An error has occured: ${err}`);
             res.json(results);
         });
     }
@@ -106,7 +106,7 @@ app.post('/cafes', upload.none(), (req,res) => {
     connection.query(`INSERT INTO CAFE (name, description, logo, location, id) VALUES (?, ?, ? ,?, UUID());`
         , [req.body.name, req.body.description, req.body.logo, req.body.location]
         , (err, results, fields) => {
-        if (err) throw err;
+        if (err) throw res.status(400).json(`An error has occured: ${err}`);
     });
     res.status(200).json({ message: 'Success' });
 });
@@ -117,7 +117,7 @@ app.post('/employees', upload.none(), (req,res) => {
     connection.query(`INSERT INTO Employee (id, name, email_address, phone_number, gender, start_date, cafe_name) VALUES (?, ?, ?, ?, ?, ?, ?);`
     , [`UI${makeid()}`, req.body.name, req.body.email, req.body.phone, req.body.gender, req.body.start_date, req.body.cafe]
     , (err, results, fields) => {
-        if (err) throw err;
+        if (err) throw res.status(400).json(`An error has occured: ${err}`);
     });
     res.status(200).json({ message: 'Success' });
 });
@@ -126,11 +126,10 @@ app.post('/employees', upload.none(), (req,res) => {
 app.put('/cafes/:id', upload.none(), (req, res) => {
     connection.query(`UPDATE Cafe
         SET name = ?, description = ?, logo = ?, location = ?
-        WHERE id = ?
-        ;`
+        WHERE id = ?;`
         , [req.body.name, req.body.description, req.body.logo, req.body.location, req.params.id]
         , (err, results, fields) => {
-        if (err) throw err;
+        if (err) throw res.status(400).json(`An error has occured: ${err}`);
     });
     res.status(200).json({ message: 'Success' });
 });
@@ -139,11 +138,10 @@ app.put('/cafes/:id', upload.none(), (req, res) => {
 app.put('/employees/:id', upload.none(), (req, res) => {
     connection.query(`UPDATE Employee
         SET name = ?, email_address = ?, phone_number = ?, gender = ?, cafe_name = ?
-        WHERE id = ?
-        ;`
+        WHERE id = ?;`
         , [req.body.name, req.body.email, req.body.phone, req.body.gender, req.body.cafe, req.params.id]
         , (err, results, fields) => {
-        if (err) throw err;
+        if (err) throw res.status(400).json(`An error has occured: ${err}`);
     });
     res.status(200).json({ message: 'Success' });
 });
@@ -151,11 +149,10 @@ app.put('/employees/:id', upload.none(), (req, res) => {
 // Create a DELETE endpoint /cafes
 app.delete('/cafes/:name', (req, res) => {
     connection.query(`DELETE FROM Cafe
-        WHERE name = ?
-        ;`
+        WHERE name = ?;`
         , [req.params.name]
         , (err, results, fields) => {
-        if (err) throw err;
+        if (err) throw res.status(400).json(`An error has occured: ${err}`);
     });
     res.status(200).json({ message: 'Success' });
 })
@@ -163,11 +160,10 @@ app.delete('/cafes/:name', (req, res) => {
 // Create a DELETE endpoint /employees
 app.delete('/employees/:id', (req, res) => {
     connection.query(`DELETE FROM Employee
-        WHERE id = ?
-        ;`
+        WHERE id = ?;`
         , [req.params.id]
         , (err, results, fields) => {
-        if (err) throw err;
+        if (err) throw res.status(400).json(`An error has occured: ${err}`);
     });
     res.status(200).json({ message: 'Success' });
 })
